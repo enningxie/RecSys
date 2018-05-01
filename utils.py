@@ -7,7 +7,9 @@ import numpy as np
 def arg_parser():
     args = argparse.ArgumentParser()
     args.add_argument('--ratings_path', type=str, default='./ml-1m/ratings.dat')
+    args.add_argument('--train_ratings_path', type=str, default='./ml-1m-ncf/ml-1m.train.rating')
     args.add_argument('--pd_path', type=str, default='./files/ratings.csv')
+    args.add_argument('--train_pd_path', type=str, default='./files/ratings_train.csv')
 
     return args.parse_args()
 
@@ -23,7 +25,7 @@ def load_data(path):
 def _put_data_to_pd(data):
     user_id, movie_id, ratings, timestamp = [], [], [], []
     for i in data:
-        tmp_list = i.split('::')
+        tmp_list = i.split('\t')
         user_id.append(tmp_list[0])
         movie_id.append(tmp_list[1])
         ratings.append(tmp_list[2])
@@ -55,5 +57,6 @@ def get_dict_from_pd(pd_path):
 
 if __name__ == '__main__':
     FLAGS = arg_parser()
-    ratings_dict_ = get_dict_from_pd(FLAGS.pd_path)
-    print(len(ratings_dict_.get(14, 'no_idea.')))
+    tmp_dict = get_dict_from_pd(FLAGS.train_pd_path)
+    len_list = []
+    print(len(tmp_dict.keys()))
